@@ -1,0 +1,56 @@
+.account-section {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  background-color: #9f5ccc; /* birinci görseldeki gibi koyu morumsu */
+  border-radius: 0;
+  height: 60px;
+  box-sizing: border-box;
+}
+
+
+.account-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.account-name {
+  font-weight: bold;
+  font-size: 17px;
+  color: #fff;
+}
+
+.account-menu-icon {
+  cursor: pointer;
+  font-size: 25px;
+  padding: 0 8px;
+  user-select: none;
+  color: #fff;
+}
+
+.account-dropdown {
+  position: absolute;
+  bottom: 60px; /* account-section yüksekliğine göre */
+  right: 10px;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.account-dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #3f0d58;
+}
+
+.account-dropdown-item:hover {
+  background-color: #f0e6ff;
+}

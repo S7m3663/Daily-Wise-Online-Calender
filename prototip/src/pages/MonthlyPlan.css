@@ -1,0 +1,83 @@
+/* src/pages/MonthlyPlan.css */
+body{
+  height:100vh;
+  margin: 0;
+  padding:0;
+}
+.container{
+  overflow-y: hidden;
+  }
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  padding: 15px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  margin-top: 20px;
+  height:auto;
+  overflow-y: hidden;
+
+}
+
+.calendar-cell {
+  height: 78px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #3f0d58;
+  font-size: 16px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-cell:hover {
+  box-shadow: 0 0 6px rgba(159, 92, 204, 0.7);
+  transform: scale(1.02);
+}
+
+.purple {
+  background-color: #a77be0 !important;
+  color: white;
+}
+
+.dark {
+  background-color: #444 !important;
+  color: white;
+}
+
+.gray {
+  background-color: #999 !important;
+  color: white;
+}
+
+.navy {
+  background-color: #6f00ff !important;
+  color: white;
+}
+
+/* Bugünkü günü vurgulamak istersek */
+.today {
+  border: 2px solid #9f5ccc;
+}
+
+.button.active { 
+  background-color: #9f5ccc;
+  color: white;
+  border: 3px solid #9f5ccc;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 15px;
+  cursor: pointer;
+  margin-left: 10px;
+}

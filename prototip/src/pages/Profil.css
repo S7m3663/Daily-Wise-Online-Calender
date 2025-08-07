@@ -1,0 +1,71 @@
+.profile-card {
+  width: 50px;
+  margin: 150px auto;
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: white;
+  text-align: center;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.profile-icon {
+  font-size: 40px;
+}
+
+.greeting {
+  color: purple;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.profile-button {
+  display: center;
+  width: 200px;
+  padding: 10px;
+  margin: 15px;
+  background-color: #6e1dc9;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.profile-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  width: 700px;
+}
