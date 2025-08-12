@@ -40,7 +40,7 @@ const MonthlyPlan = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeView, setActiveView] = useState("aylik");
 
-  // ✅ Görevleri veritabanından çek
+  //  Görevleri veritabanından çek
   useEffect(() => {
     const fetchTasks = async () => {
   const token = localStorage.getItem("token");

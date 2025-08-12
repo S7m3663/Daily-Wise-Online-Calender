@@ -30,7 +30,7 @@ useEffect(() => {
     <div className="account-section">
       
       <div className="account-info">
-        <span className="account-name">{user.name}</span>
+        <span className="account-name">{user.name}</span> {/* user değişkeninden name bileşenini aldık.*/}
       </div>
       <div className="account-menu-icon" onClick={() => setShowMenu(!showMenu)}>⋮</div>
 

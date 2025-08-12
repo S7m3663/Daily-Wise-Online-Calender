@@ -74,11 +74,11 @@ useEffect(() => {
   const handleSave = async () => {
   try { 
   //localStorage.setItem("username") ;
-    const userId = localStorage.getItem("userId");
-    console.log("🆔 Kullanıcı ID:", userId);
+    const userId = localStorage.getItem("userId"); //profil güncelleme işlemi
+    console.log(" Kullanıcı ID:", userId);
     const res = await fetch(`http://localhost:5000/api/users/${userId}`, {
       method: "PUT",
-      headers: {
+      headers: { //json veri gönderileceği için 
         "Content-Type": "application/json"
       },
       body: JSON.stringify({

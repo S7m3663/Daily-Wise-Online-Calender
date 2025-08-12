@@ -14,12 +14,12 @@ export const UserProvider = ({ children }) => {
           Authorization: `Bearer ${token}`
         }
       })
-        .then((res) => res.json())
+        .then((res) => res.json()) /* hata fırlatmazsa her durumda datayı user'a set ettiriyor */
         .then((data) => {
           setUser(data.user);
         })
         .catch(() => {
-          localStorage.clear();
+          localStorage.clear(); 
           setUser(null);
         });
     }
