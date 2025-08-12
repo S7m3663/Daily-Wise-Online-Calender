@@ -12,7 +12,7 @@ const createTask = async (req, res) => {
       task,
       tag,
       note,
-      userId: req.user.userId // ✅ Token'dan gelen userId
+      userId: req.userId // ✅ Token'dan gelen userId
     });
 
     const savedTask = await newTask.save();
@@ -25,7 +25,7 @@ const createTask = async (req, res) => {
 // Tüm task’ları getir
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ userId: req.user.userId }); 
+    const tasks = await Task.find({ userId: req.userId }); 
     res.status(200).json(tasks);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -46,15 +46,10 @@ const deleteTask = async (req, res) => {
 const getTasksByDay = async (req, res) => {
   try {
     const { day } = req.params;
-    const tasks = await Task.find({
-      day,
-      userId: req.user.userId // sadece bu kullanıcının bu günkü görevleri
-    });
+    const tasks = await Task.find({ day, userId: req.userId });
     res.status(200).json(tasks);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
-
 module.exports = { createTask, getAllTasks, deleteTask, getTasksByDay };
