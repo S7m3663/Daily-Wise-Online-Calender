@@ -37,7 +37,7 @@ useEffect(() => {
     if (!confirmDelete) return;
 
     try {
-     const res = await fetch(`http://localhost:5000/api/users/${user._id}`, {
+     const res = await fetch(`https://daily-wise-online-calender.onrender.com/${user._id}`, {
     method: "DELETE"
     });;
 

@@ -17,7 +17,7 @@ const PlanModal = ({ day, onSave, onCancel, plans, setPlans, activeView }) => {
     console.log("Silinecek id:", planToDelete._id);
 
     if (planToDelete._id) {
-      await fetch(`http://localhost:5000/api/tasks/${planToDelete._id}`, {
+      await fetch(`https://daily-wise-online-calender.onrender.com/${planToDelete._id}`, {
         method: "DELETE"
       });
     }

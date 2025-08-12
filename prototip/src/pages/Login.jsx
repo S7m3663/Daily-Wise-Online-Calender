@@ -16,7 +16,7 @@ const handleLogin = async (e) => {
   console.log("login denendi");
 
   try {
-    const res = await axios.post("http://localhost:5000/api/auth/login", {
+    const res = await axios.post("https://daily-wise-online-calender.onrender.com", {
       email: email.trim().toLowerCase(),
       password,
     });

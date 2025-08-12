@@ -48,7 +48,7 @@ const saveTasks = async () => {
 
   try {
     for (let task of plans) {
-      const response = await fetch("http://localhost:5000/api/tasks/add", {
+      const response = await fetch("https://daily-wise-online-calender.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ useEffect(() => {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/tasks/list", {
+      const res = await fetch("https://daily-wise-online-calender.onrender.com", {
         headers: {
           Authorization: `Bearer ${token}`
         }
