@@ -7,7 +7,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:5000"],
+  origin: [
+    "https://daily-wise-online-calender.vercel.app", // Frontend (React)
+    "https://daily-wise-online-calender.onrender.com" // (Eğer başka bir frontend veya test ortamı ise)
+  ],
   credentials: true
 }));
 app.use(express.json());
