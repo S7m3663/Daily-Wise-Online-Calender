@@ -17,7 +17,7 @@ const PlanModal = ({ day, onSave, onCancel, plans, setPlans, activeView }) => {
     console.log("Silinecek id:", planToDelete._id);
 
     if (planToDelete._id) {
-      await fetch(`https://daily-wise-online-calender.onrender.com/${planToDelete._id}`, {
+      await fetch(`http://localhost:5000/api/tasks/${planToDelete._id}`, {
         method: "DELETE"
       });
     }
@@ -37,7 +37,7 @@ const PlanModal = ({ day, onSave, onCancel, plans, setPlans, activeView }) => {
 
   try {
     for (let task of plans) {
-      const response = await fetch("https://daily-wise-online-calender.onrender.com", {
+      const response = await fetch("http://localhost:5000/api/tasks/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

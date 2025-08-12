@@ -29,7 +29,7 @@ const deletePlan = async (indexToRemove) => {
   console.log("Silinecek id:", planToDelete._id);
 
   if (planToDelete._id) {
-    await fetch(`https://daily-wise-online-calender.onrender.com/api/tasks/${planToDelete._id}`, {
+    await fetch(`https://daily-wise-online-calender.onrender.com/tasks/${planToDelete._id}`, {
       method: "DELETE"
     });
   }
@@ -48,7 +48,7 @@ const saveTasks = async () => {
 
   try {
     for (let task of plans) {
-      const response = await fetch("https://daily-wise-online-calender.onrender.com/api/tasks/add", {
+      const response = await fetch("https://daily-wise-online-calender.onrender.com/tasks/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ useEffect(() => {
     if (!token) return;
 
     try {
-      const res = await fetch("https://daily-wise-online-calender.onrender.com/api/tasks/list", {
+      const res = await fetch("https://daily-wise-online-calender.onrender.com/tasks/list", {
         headers: {
           Authorization: `Bearer ${token}`
         }

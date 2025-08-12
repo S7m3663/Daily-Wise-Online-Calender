@@ -44,6 +44,12 @@ const deleteTask = async (req, res) => {
 
 // Gün bazlı görevleri getirir
 const getTasksByDay = async (req, res) => {
+
+   const day = (req.params.day || req.query.day || "").trim();
+  if (!day) {
+    return res.status(400).json({ message: "day gerekli." });
+  }
+  
   try {
     const { day } = req.params;
     const tasks = await Task.find({ day, userId: req.userId });

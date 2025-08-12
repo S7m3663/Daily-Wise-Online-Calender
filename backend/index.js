@@ -36,6 +36,11 @@ app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
+app.use((req, res) => {
+  console.log(`❌ 404 -> ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ error: "Not Found", path: req.originalUrl });
+});
+
 // Ana sayfa
 app.get("/", (_req, res) => {
   res.send("DailyWise Backend Çalışıyor 🚀");
