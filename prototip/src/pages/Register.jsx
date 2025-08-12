@@ -18,7 +18,7 @@ const Register = () => {
   const handleRegister = async (e) => {
   e.preventDefault();
   try {
-    const res = await axios.post("http://localhost:5000/api/auth/register", {
+    const res = await axios.post("https://daily-wise-online-calender.onrender.com", {
       username,
       email: email.trim().toLowerCase(),
       password,

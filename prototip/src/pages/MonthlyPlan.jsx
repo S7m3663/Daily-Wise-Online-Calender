@@ -48,7 +48,7 @@ const MonthlyPlan = () => {
   if (!token || !userId) return;
 
   try {
-    const res = await fetch("http://localhost:5000/api/tasks/list", {
+    const res = await fetch("https://daily-wise-online-calender.onrender.com", {
       headers: {
         Authorization: `Bearer ${token}`
       }

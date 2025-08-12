@@ -9,7 +9,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch("http://localhost:5000/api/auth/me", {
+      fetch("https://daily-wise-online-calender.onrender.com/api/auth/me", {
         headers: {
           Authorization: `Bearer ${token}`
         }

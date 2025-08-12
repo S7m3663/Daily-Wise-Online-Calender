@@ -37,7 +37,7 @@ const PlanModal = ({ day, onSave, onCancel, plans, setPlans, activeView }) => {
 
   try {
     for (let task of plans) {
-      const response = await fetch("http://localhost:5000/api/tasks/add", {
+      const response = await fetch("https://daily-wise-online-calender.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

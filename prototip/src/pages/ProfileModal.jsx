@@ -76,7 +76,7 @@ useEffect(() => {
   //localStorage.setItem("username") ;
     const userId = localStorage.getItem("userId"); //profil güncelleme işlemi
     console.log(" Kullanıcı ID:", userId);
-    const res = await fetch(`http://localhost:5000/api/users/${userId}`, {
+    const res = await fetch(`https://daily-wise-online-calender.onrender.com/${userId}`, {
       method: "PUT",
       headers: { //json veri gönderileceği için 
         "Content-Type": "application/json"
