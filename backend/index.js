@@ -8,8 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors({
   origin: [
-    "https://daily-wise-online-calender.vercel.app", // Frontend (React)
-    "https://daily-wise-online-calender.onrender.com" // (Eğer başka bir frontend veya test ortamı ise)
+    "https://daily-wise-online-calender.vercel.app"
   ],
   credentials: true
 }));
