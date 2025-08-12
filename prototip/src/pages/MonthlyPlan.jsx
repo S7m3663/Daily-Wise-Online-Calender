@@ -48,7 +48,7 @@ const MonthlyPlan = () => {
   if (!token || !userId) return;
 
   try {
-    const res = await fetch("https://daily-wise-online-calender.onrender.com/api/tasks", {
+    const res = await fetch("https://daily-wise-online-calender.onrender.com/api/tasks/list", {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -84,7 +84,7 @@ const MonthlyPlan = () => {
   const token = localStorage.getItem("token");
 
   try {
-    const res = await fetch("https://daily-wise-online-calender.onrender.com/api/tasks", {
+    const res = await fetch("https://daily-wise-online-calender.onrender.com/api/tasks/list", {
       headers: {
         Authorization: `Bearer ${token}`
       }
