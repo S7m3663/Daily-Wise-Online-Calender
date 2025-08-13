@@ -5,6 +5,7 @@ import Logo from '../assets/logo/logo.ico';
 import { useNavigate } from "react-router-dom";
 import AccountSection from "../components/AccountSection";
 import { PlanContext } from "../Context/PlanContext";
+import { api } from "../lib/api";
 
 const DailyPlan = () => {
   const [showTags, setShowTags] = useState(false);
@@ -28,10 +29,8 @@ const deletePlan = async (indexToRemove) => {
   const planToDelete = plans[indexToRemove];
   console.log("Silinecek id:", planToDelete._id);
 
-  if (planToDelete._id) {
-    await fetch(`https://daily-wise-online-calender.onrender.com/tasks/${planToDelete._id}`, {
-      method: "DELETE"
-    });
+  if (planToDelete?._id) {
+  await api.delete(`/api/tasks/${planToDelete._id}`);
   }
 
   const updatedPlans = plans.filter((_, index) => index !== indexToRemove);
@@ -48,22 +47,16 @@ const saveTasks = async () => {
 
   try {
     for (let task of plans) {
-      const response = await fetch("https://daily-wise-online-calender.onrender.com/tasks/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` // ✅ Token header'a eklendi
-        },
-        body: JSON.stringify({
-          day: new Date().toISOString().split("T")[0],
-          hour: task.hour,
-          task: task.task,
-          tag: task.tag,
-          note: task.note,
-          type: "gunluk"
-        })
-      });
-
+      const payloads = plans
+    .filter(p => p?.hour && p?.task)
+    .map(p => ({
+      day: new Date().toISOString().split("T")[0],
+      hour: p.hour,
+      task: p.task,
+      tag: p.tag || "",
+      note: p.note || "",
+      type: "gunluk",
+    }));
       const result = await response.json();
       if (!response.ok) {
         throw new Error(result.message || "Görev eklenirken hata oluştu.");
@@ -75,9 +68,10 @@ const saveTasks = async () => {
     alert("✅ Görev başarıyla kaydedildi!");
     
   } catch (err) {
-    console.error("Hata:", err.message);
-    alert("❌ Görev kaydı sırasında hata oluştu.");
-  }
+  console.error(err);
+  const msg = err?.response?.data?.message || "Kaydetme sırasında bir hata oluştu.";
+  alert(msg);
+}
 };
 
 <button onClick={saveTasks} className="add-btn">KAYDET</button>

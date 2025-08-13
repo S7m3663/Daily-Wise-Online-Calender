@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import IconButton from '@mui/material/IconButton';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { api } from "../lib/api";
 
 const ProfileModal = ({ onClose }) => {
   const navigate = useNavigate();
@@ -37,21 +38,19 @@ useEffect(() => {
     if (!confirmDelete) return;
 
     try {
-     const res = await fetch(`https://daily-wise-online-calender.onrender.com/${user._id}`, {
-    method: "DELETE"
-    });;
+  const res = await api.delete(`/api/users/${user._id}`); // {status: 200/204...}
 
-      if (res.ok) {
-        alert("Hesabınız silindi.");
-        localStorage.clear();
-        navigate("/login");
-      } else {
-        alert("Silme başarısız.");
-      }
-    } catch (err) {
-      console.error("Silme hatası:", err);
-      alert("Sunucu hatası.");
-    }
+  if (res.status >= 200 && res.status < 300) {
+    alert("Hesabınız silindi.");
+    localStorage.clear();
+    navigate("/login");
+  } else {
+    alert("Silme başarısız.");
+  }
+} catch (err) {
+  console.error("Silme hatası:", err);
+  alert(err?.response?.data?.message || "Sunucu hatası.");
+}
   };
 
   const handleLogout = () => {
@@ -72,35 +71,37 @@ useEffect(() => {
   };*/
 
   const handleSave = async () => {
-  try { 
-  //localStorage.setItem("username") ;
-    const userId = localStorage.getItem("userId"); //profil güncelleme işlemi
-    console.log(" Kullanıcı ID:", userId);
-    const res = await fetch(`https://daily-wise-online-calender.onrender.com/${userId}`, {
-      method: "PUT",
-      headers: { //json veri gönderileceği için 
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
+   try {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        alert("Kullanıcı bulunamadı.");
+        return;
+      }
+
+      const payload = {
         username: editedName,
-        email: editedEmail
-      })
-    });
+        email: editedEmail,
+      };
 
-    if (res.ok) {
-      const updatedUser = await res.json();
-      localStorage.setItem("username", updatedUser.username);
-      localStorage.setItem("email", updatedUser.email);
-      setIsEditing(false);
-      window.location.reload();
-    } else {
-      alert("Güncelleme başarısız.");
+      // axios: method/headers/body YOK; 2. parametre payload, 3. parametre config
+      const { data, status } = await api.put(`/api/users/${userId}`, payload);
+
+      if (status >= 200 && status < 300) {
+        const updatedUser = data?.user ?? data;
+        localStorage.setItem("username", updatedUser?.username ?? editedName);
+        localStorage.setItem("email", updatedUser?.email ?? editedEmail);
+
+        setIsEditing(false);
+        onClose?.(); // modalı kapatmak istiyorsan
+        // window.location.reload(); // gerçekten gerekirse kullan
+      } else {
+        alert("Güncelleme başarısız.");
+      }
+    } catch (err) {
+      console.error("Güncelleme hatası:", err);
+      alert(err?.response?.data?.message || "Sunucu hatası.");
     }
-  } catch (err) {
-    console.error("Güncelleme hatası:", err);
-  }
-};
-
+  };
 
   return (
     <div className="modal-overlay">

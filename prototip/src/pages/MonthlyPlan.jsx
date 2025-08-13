@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PlanModal from "./planModal";
 import AccountSection from "../components/AccountSection";
 import { PlanContext } from "../Context/PlanContext";
+import { api } from "../lib/api";
 
 const tagColors = {
   "Eğlence": "purple",
@@ -48,30 +49,48 @@ const MonthlyPlan = () => {
   if (!token || !userId) return;
 
   try {
-    const res = await fetch("https://daily-wise-online-calender.onrender.com/api/tasks/list", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  const base = import.meta.env.VITE_API_BASE;
+  const token = localStorage.getItem("token") || "";
 
-    const data = await res.json();
-    if (res.ok) {
-      const newPlans = {};
-      const filteredTasks = data.filter(task => task.userId.toString() === userId);
-
-      filteredTasks.forEach((task) => {
-        const key = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(task.day).padStart(2, "0")}`;
-        newPlans[key] = task;
-      });
-
-      setPlans(newPlans);
-    } else {
-      console.error("Görevleri alma hatası:", data.message);
-    }
-  } catch (err) {
-    console.error("Sunucu hatası:", err.message);
+  const res = await fetch(`${base}/api/tasks/list`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`${res.status} ${txt}`);
   }
-};
+
+  const raw = await res.json();                        // dizi bekliyoruz
+  const items = Array.isArray(raw) ? raw : raw?.tasks || [];
+
+  const newPlans = {};
+
+  // Bu ay + bu kullanıcıya ait kayıtlar
+  const filtered = items.filter(t => {
+    if (!t?.userId) return false;
+    if (t.userId.toString() !== userId) return false;
+
+    // t.day genelde "YYYY-MM-DD" geliyor
+    const iso = typeof t.day === "string" ? t.day.slice(0, 10) : "";
+    const [y, m] = iso.split("-").map(Number);
+    return y === currentYear && m === currentMonth + 1;
+  });
+
+  filtered.forEach(t => {
+    const iso = typeof t.day === "string"
+      ? t.day.slice(0, 10)
+      : `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(t.day).padStart(2, "0")}`;
+
+    // Aynı güne birden fazla görev gelirse üstüne yazmasın, dizi halinde tutsun
+    if (!newPlans[iso]) newPlans[iso] = [];
+    newPlans[iso].push(t);
+  });
+
+  setPlans(newPlans);
+} catch (err) {
+  console.error("Görevleri alma hatası:", err.message);
+}
+    };
 
     fetchTasks();
   }, [currentMonth, currentYear]);
@@ -84,29 +103,48 @@ const MonthlyPlan = () => {
   const token = localStorage.getItem("token");
 
   try {
-    const res = await fetch("https://daily-wise-online-calender.onrender.com/tasks/list", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  const base = import.meta.env.VITE_API_BASE;
+  const token = localStorage.getItem("token") || "";
 
-    const data = await res.json();
-    if (res.ok) {
-      const updatedPlans = {};
-      data.forEach((task) => {
-        const key = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(task.day).padStart(2, "0")}`;
-        updatedPlans[key] = task;
-      });
-      setPlans(updatedPlans);
-    } else {
-      console.error("Görevleri alırken hata:", data.message);
-    }
-  } catch (err) {
-    console.error("Planları güncellerken hata:", err);
+  const res = await fetch(`${base}/api/tasks/list`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {}
+  });
+  if (!res.ok) {
+    const txt = await res.text();
+    throw new Error(`${res.status} ${txt}`);
   }
 
-  setSelectedDay(null); // Modalı kapat
-};
+  const raw = await res.json();
+  const items = Array.isArray(raw) ? raw : raw?.tasks || [];
+
+  const updatedPlans = {};
+
+  const filtered = items.filter(t => {
+    if (!t?.userId) return false;
+    if (t.userId.toString() !== userId) return false;
+
+    // t.day genelde "YYYY-MM-DD" gelir
+    const iso = typeof t.day === "string" ? t.day.slice(0, 10) : "";
+    const [y, m] = iso.split("-").map(Number);
+    return y === currentYear && m === currentMonth + 1;
+  });
+
+  filtered.forEach(t => {
+    const iso = typeof t.day === "string"
+      ? t.day.slice(0, 10)
+      : `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(t.day).padStart(2, "0")}`;
+
+    if (!updatedPlans[iso]) updatedPlans[iso] = [];
+    updatedPlans[iso].push(t);
+  });
+
+  setPlans(updatedPlans);
+} catch (err) {
+  console.error("Planları güncellerken hata:", err.message || err);
+}
+
+setSelectedDay(null); // Modalı kapat
+}
 
 
   return (

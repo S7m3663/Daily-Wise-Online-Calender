@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../assets/logo/logo.ico';
 import '../App.css';
+import { api } from "../lib/api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,11 +17,11 @@ const handleLogin = async (e) => {
   console.log("login denendi");
 
   try {
-    const res = await axios.post("https://daily-wise-online-calender.onrender.com/login", {
-      email: email.trim().toLowerCase(),
-      password,
-    });
-
+    const res = await api.post("/api/auth/login", {
+  email: email.trim().toLowerCase(),
+  password,
+});
+ 
     const { token, user } = res.data;
     console.log("Kullanıcı objesi:", user);
     // 👉 Gerekli kullanıcı bilgilerini localStorage'a kaydet
@@ -32,7 +33,7 @@ const handleLogin = async (e) => {
 
     // 👉 Günlük plan sayfasına yönlendir
     navigate("/gunluk");
-    window.location.reload();
+    //window.location.reload();
   } catch (err) {
     console.error("Login hatası:", err);
     alert(err.response?.data?.message || err.message || "Giriş sırasında hata oluştu.");
